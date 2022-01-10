@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-
-interface Props {
-    children: React.ReactNode;
-}
+import { LOCALSTORAGE_JWT } from "../__helpers__/common";
+import RealmContext from "../__helpers__/realmContext";
+import CommonHeader from "./CommonHeader";
 
 const Container = styled.div`
     display: flex;
@@ -14,95 +13,10 @@ const Container = styled.div`
     width: 100vw;
 `;
 
-const ChildrenContainer = styled.div`
-    flex: 1;
-    height: 100vh;
-`;
-
-const General = (props: Props) => {
-    const { children } = props;
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        window.addEventListener("scroll", listenToScroll);
-        return () => {
-            window.removeEventListener("scroll", listenToScroll);
-        };
-    }, []);
-
-    const listenToScroll = () => {
-        const winScroll =
-            document.body.scrollTop || document.documentElement.scrollTop;
-
-        if (winScroll > 0) {
-            setScrolled(true);
-        }
-
-        if (winScroll === 0) {
-            setScrolled(false);
-        }
-    };
-
-    const getClassNames = () => {
-        let toReturn = "header header-fixed u-unselectable header-animated";
-
-        if (!scrolled) {
-            toReturn += " header-clear header-dark";
-        }
-        return toReturn;
-    };
-
+const General = () => {
     return (
         <Container>
-            <div className={getClassNames()}>
-                <div className="header-brand">
-                    <div className="nav-item no-hover">
-                        <Link to={"/"}>
-                            <h6 className="title">Masseerbeer</h6>
-                        </Link>
-                    </div>
-                    <div className="nav-item nav-btn" id="header-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className="header-nav" id="header-menu">
-                    {/* <div className="nav-left">
-                        <div className="nav-item text-center">
-                            <Link to="/activities">activiteiten</Link>
-                        </div>
-                    </div> */}
-
-                    {/* <div className="nav-right">
-                        <div className="nav-item active">
-                            <a href="#">Active</a>
-                        </div>
-                        <div className="nav-item">
-                            <a href="#">Link 1</a>
-                        </div>
-                        <div className="nav-item has-sub" id="dropdown">
-                            <a className="nav-dropdown-link">Click Me</a>
-                            <ul className="dropdown-menu" role="menu">
-                                <li role="menu-item">
-                                    <a href="#">First Item</a>
-                                </li>
-                                <li role="menu-item">
-                                    <a href="#">Second Item</a>
-                                </li>
-                                <li role="menu-item">
-                                    <a href="#">Third Item</a>
-                                </li>
-                                <li className="dropdown-menu-divider"></li>
-                                <li role="menu-item">
-                                    <a href="#">Fourth Item</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> */}
-                </div>
-            </div>
-            <ChildrenContainer>{children}</ChildrenContainer>
+            <CommonHeader />
             <footer className="footer">
                 <h6 className="footer__title white uppercase">Masseerbeer</h6>
                 <div className="content">

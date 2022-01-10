@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import "cirrus-ui";
 import General from "./Layout/General";
-import Home from "./Pages/Home/Home";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import routes from "./Routing/routes";
+import RealmContext from "./__helpers__/realmContext";
 
 function App() {
-    return (
-        <General>
-            <Outlet />
-        </General>
-    );
+    return <AppInner />;
 }
+
+const AppInner = () => {
+    const realmApp = useContext(RealmContext);
+    const routing = useRoutes(routes(realmApp.currentUser ? true : false));
+
+    return routing;
+};
 
 export default App;
