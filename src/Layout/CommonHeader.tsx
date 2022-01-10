@@ -24,7 +24,7 @@ const CommonHeader = () => {
                 <div className="header-brand">
                     <div className="nav-item no-hover">
                         <Link to={"/"}>
-                            <h6 className="title">Masseerbeer</h6>
+                            <h6 className="title uppercase">OKRA</h6>
                         </Link>
                     </div>
                     <div className="nav-item nav-btn" id="header-btn">
