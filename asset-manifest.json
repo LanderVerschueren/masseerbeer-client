@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/masseerbeer-client/static/css/main.1b5cca2c.css",
-    "main.js": "/masseerbeer-client/static/js/main.1719d9cf.js",
+    "main.js": "/masseerbeer-client/static/js/main.ba639e5f.js",
     "static/js/787.5683f321.chunk.js": "/masseerbeer-client/static/js/787.5683f321.chunk.js",
     "index.html": "/masseerbeer-client/index.html",
     "main.1b5cca2c.css.map": "/masseerbeer-client/static/css/main.1b5cca2c.css.map",
-    "main.1719d9cf.js.map": "/masseerbeer-client/static/js/main.1719d9cf.js.map",
+    "main.ba639e5f.js.map": "/masseerbeer-client/static/js/main.ba639e5f.js.map",
     "787.5683f321.chunk.js.map": "/masseerbeer-client/static/js/787.5683f321.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1b5cca2c.css",
-    "static/js/main.1719d9cf.js"
+    "static/js/main.ba639e5f.js"
   ]
 }
