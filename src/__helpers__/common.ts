@@ -9,8 +9,6 @@ const LOGIN_URL = `https://realm.mongodb.com/api/client/v2.0/app/${REALM_APP_ID}
 
 const REALM_ENDPOINT = `https://realm.mongodb.com/api/client/v2.0/app/${REALM_APP_ID}/graphql`;
 
-const GOOGLE_API = "AIzaSyDpyplGlw1CXzrABMcclBWpTLiT1mmSWlw";
-
 export {
     commonHeights,
     LOCALSTORAGE_JWT,
