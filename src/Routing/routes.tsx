@@ -1,8 +1,8 @@
-import { Navigate, Outlet, RouteObject } from "react-router-dom";
-import App from "../App";
+import { Outlet, RouteObject } from "react-router-dom";
 import General from "../Layout/General";
 import GeneralNoFooter from "../Layout/GeneralNoFooter";
 import Activities from "../Pages/Activities/Activities";
+import ActivityDetails from "../Pages/Activities/ActivityDetails";
 import AddEditActivity from "../Pages/Activities/AddEditActivity";
 import ActivityCosts from "../Pages/ActivityCosts/ActivityCosts";
 import Home from "../Pages/Home/Home";
@@ -18,37 +18,47 @@ const routes = (isLoggedIn: boolean): Array<RouteObject> => [
                 index: true,
                 element: <Home />,
             },
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "registreren",
+                element: <Registration />,
+            },
         ],
     },
     {
         path: "activiteiten",
-        element: isLoggedIn ? <General /> : <Navigate to="/login" />,
+        element: <General />,
         children: [
             {
                 index: true,
                 element: <Activities />,
             },
             {
+                path: ":activityId",
+                element: <Outlet />,
+                children: [
+                    {
+                        index: true,
+                        element: <ActivityDetails />,
+                    },
+                    {
+                        path: "bewerken",
+                        element: <AddEditActivity />,
+                    },
+                    {
+                        path: "kosten",
+                        element: <ActivityCosts />,
+                    },
+                ],
+            },
+            {
                 path: "toevoegen",
                 element: <AddEditActivity />,
             },
-            {
-                path: "bewerken/:activityId",
-                element: <AddEditActivity />,
-            },
-            {
-                path: "kosten/:activityId",
-                element: <ActivityCosts />,
-            },
         ],
-    },
-    {
-        path: "login",
-        element: <Login />,
-    },
-    {
-        path: "registreren",
-        element: <Registration />,
     },
 ];
 

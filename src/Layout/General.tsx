@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { LOCALSTORAGE_JWT } from "../__helpers__/common";
-import RealmContext from "../__helpers__/realmContext";
 import CommonHeader from "./CommonHeader";
 
 const Container = styled.div`

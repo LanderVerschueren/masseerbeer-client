@@ -15,9 +15,6 @@ import * as Realm from "realm-web";
 const app = Realm.getApp(REALM_APP_ID);
 // Gets a valid Realm user access token to authenticate requests
 async function getValidAccessToken() {
-    console.log(app);
-    console.log(app.currentUser?.isLoggedIn);
-    console.log(app.currentUser);
     // Guarantee that there's a logged in user with a valid access token
     if (!app.currentUser) {
         // window.location.href = "/login";
@@ -25,7 +22,6 @@ async function getValidAccessToken() {
         // access token.
         await app.logIn(Realm.Credentials.anonymous());
     } else {
-        console.log("test");
         // An already logged in user's access token might be stale. To guarantee that the token is
         // valid, we refresh the user's custom data which also refreshes their access token.
         await app.currentUser.refreshCustomData();
@@ -51,7 +47,7 @@ const client = new ApolloClient({
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <App />
             </BrowserRouter>
         </ApolloProvider>

@@ -2,12 +2,6 @@ import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { commonHeights } from "../../__helpers__/common";
-
-const Container = styled.div`
-    margin-top: ${commonHeights.navHeight}px;
-`;
 
 const GET_ACTIVITY_COSTS = gql`
     query GetActivityCosts($fkActivityId: ID) {
@@ -34,22 +28,14 @@ const ADD_ACTIVITY_COSTS = gql`
 `;
 
 const ActivityCosts = () => {
-    const {
-        register,
-        control,
-        getValues,
-        watch,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        mode: "onChange",
-    });
-    const { fields, append, prepend, remove, swap, move, insert } =
-        useFieldArray({
-            control,
-            name: "costs",
+    const { register, control, getValues, watch, handleSubmit, reset } =
+        useForm({
+            mode: "onChange",
         });
+    const { fields, append } = useFieldArray({
+        control,
+        name: "costs",
+    });
     watch("costs");
 
     const [getActivityCosts] = useLazyQuery(GET_ACTIVITY_COSTS, {
@@ -57,8 +43,7 @@ const ActivityCosts = () => {
             reset({ costs: getActivityCosts.costs });
         },
     });
-    const [addCosts, { data, loading, error }] =
-        useMutation(ADD_ACTIVITY_COSTS);
+    const [addCosts] = useMutation(ADD_ACTIVITY_COSTS);
     const { activityId }: any = useParams();
 
     useEffect(() => {
@@ -73,7 +58,7 @@ const ActivityCosts = () => {
                 })
             );
         }
-    }, [activityId]);
+    }, [activityId, getActivityCosts, reset]);
 
     const getAllCosts = (input: any) => {
         const { costs } = getValues();
@@ -101,82 +86,72 @@ const ActivityCosts = () => {
     };
 
     return (
-        <Container>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="section">
-                    <div className="content">
-                        {fields.length > 0 &&
-                            fields.map((field, index) => (
-                                <div className="row" key={field.id}>
-                                    <div className="col-8">
-                                        <input
-                                            type="text"
-                                            {...register(
-                                                `costs.${index}.name`,
-                                                {
-                                                    required: true,
-                                                }
-                                            )}
-                                            placeholder="naam kost"
-                                            // className={
-                                            //     errors &&
-                                            //     errors.costs[index].name &&
-                                            //     "text-danger input-error"
-                                            // }
-                                        />
-                                    </div>
-                                    <div className="col-4 u-text-center">
-                                        <input
-                                            type="number"
-                                            {...register(
-                                                `costs.${index}.amount`,
-                                                {
-                                                    required: true,
-                                                }
-                                            )}
-                                            placeholder="bedrag"
-                                            className="u-text-center"
-                                            // className={
-                                            //     errors &&
-                                            //     errors.costs[index].amount &&
-                                            //     "text-danger input-error"
-                                            // }
-                                        />
-                                    </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="section">
+                <div className="content">
+                    {fields.length > 0 &&
+                        fields.map((field, index) => (
+                            <div className="row" key={field.id}>
+                                <div className="col-8">
+                                    <input
+                                        type="text"
+                                        {...register(`costs.${index}.name`, {
+                                            required: true,
+                                        })}
+                                        placeholder="naam kost"
+                                        // className={
+                                        //     errors &&
+                                        //     errors.costs[index].name &&
+                                        //     "text-danger input-error"
+                                        // }
+                                    />
                                 </div>
-                            ))}
-                        {fields.length > 0 && (
-                            <div className="row u-flex u-justify-flex-end u-text-center">
-                                <div className="col-4">
-                                    <p className="font-bold">
-                                        € {getAllCosts(fields)}
-                                    </p>
+                                <div className="col-4 u-text-center">
+                                    <input
+                                        type="number"
+                                        {...register(`costs.${index}.amount`, {
+                                            required: true,
+                                        })}
+                                        placeholder="bedrag"
+                                        className="u-text-center"
+                                        // className={
+                                        //     errors &&
+                                        //     errors.costs[index].amount &&
+                                        //     "text-danger input-error"
+                                        // }
+                                    />
                                 </div>
                             </div>
-                        )}
-                        <div className="row u-flex u-justify-flex-end">
+                        ))}
+                    {fields.length > 0 && (
+                        <div className="row u-flex u-justify-flex-end u-text-center">
                             <div className="col-4">
-                                <button
-                                    onClick={() =>
-                                        append({ name: "", amount: 0 })
-                                    }
-                                    style={{ width: "100%" }}
-                                >
-                                    kost toevoegen
-                                </button>
+                                <p className="font-bold">
+                                    € {getAllCosts(fields)}
+                                </p>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-4">
-                                <button type="submit" className="btn-primary">
-                                    kosten opslaan
-                                </button>
-                            </div>
+                    )}
+                    <div className="row u-flex u-justify-flex-end">
+                        <div className="col-4">
+                            <button
+                                onClick={() => append({ name: "", amount: 0 })}
+                                style={{ width: "100%" }}
+                            >
+                                kost toevoegen
+                            </button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-4">
+                            <button type="submit" className="btn-primary">
+                                kosten opslaan
+                            </button>
                         </div>
                     </div>
                 </div>
-            </form>
-        </Container>
+            </div>
+        </form>
     );
 };
 

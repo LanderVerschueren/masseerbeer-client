@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import "cirrus-ui";
-import General from "./Layout/General";
 import { useRoutes } from "react-router-dom";
 import routes from "./Routing/routes";
 import RealmContext from "./__helpers__/realmContext";
