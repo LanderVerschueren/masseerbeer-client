@@ -5,8 +5,8 @@ import { useContext } from "react";
 import RealmContext from "../../__helpers__/realmContext";
 
 const GET_ACTIVITIES = gql`
-    query activities {
-        activities {
+    query activities($sortBy: ActivitySortByInput) {
+        activities(sortBy: $sortBy) {
             _id
             activityName
             startDate
@@ -24,6 +24,12 @@ const GET_ACTIVITIES = gql`
 const Activities = () => {
     const { data } = useQuery(GET_ACTIVITIES);
     const realmApp = useContext(RealmContext);
+
+    const sortData = () => {
+        const sortedData = [...data.activities];
+
+        return sortedData.sort((a: any, b: any) => a.startDate - b.startDate);
+    };
 
     return (
         <div className="section">
@@ -45,7 +51,7 @@ const Activities = () => {
 
                 <div className="row u-wrap">
                     {data &&
-                        data.activities.map(
+                        sortData().map(
                             (
                                 activity: {
                                     _id: string;

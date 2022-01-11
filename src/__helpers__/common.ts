@@ -1,5 +1,5 @@
 const commonHeights = {
-    navHeight: 72,
+    navHeight: 52,
 };
 
 const LOCALSTORAGE_JWT = "okra_jwt";

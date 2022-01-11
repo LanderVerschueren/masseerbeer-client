@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { commonHeights } from "../../__helpers__/common";
 
 const HeroContainer = styled.div`
     background: url(${process.env.PUBLIC_URL}/masseerbeer/hero.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    margin-top: -${commonHeights.navHeight}px;
 `;
 
 const Lyrics = styled.h4`
@@ -15,7 +17,10 @@ const Lyrics = styled.h4`
 const Home = () => {
     return (
         <div className="section">
-            <HeroContainer className="hero fullscreen hero-img parallax-img">
+            <HeroContainer
+                id="splash-image"
+                className="hero fullscreen hero-img parallax-img"
+            >
                 <div className="hero-body">
                     <div className="content">
                         <div className="u-text-center">
