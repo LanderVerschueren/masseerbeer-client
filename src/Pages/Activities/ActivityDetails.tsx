@@ -4,7 +4,6 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
 import RealmContext from "../../__helpers__/realmContext";
-import { GOOGLE_API } from "../../__helpers__/common";
 
 const GET_ACTIVITY = gql`
     query activity($query: ActivityQueryInput) {
