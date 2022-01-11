@@ -15,5 +15,4 @@ export {
     LOGIN_URL,
     REALM_ENDPOINT,
     REALM_APP_ID,
-    GOOGLE_API,
 };
