@@ -30,6 +30,7 @@ const ADD_ACTIVITY = gql`
             postalCode
             city
             hasCosts
+            created_by
         }
     }
 `;
@@ -50,6 +51,7 @@ const UPDATE_ACTIVITY = gql`
             postalCode
             city
             hasCosts
+            created_by
         }
     }
 `;
@@ -67,6 +69,7 @@ const GET_ACTIVITY = gql`
             postalCode
             city
             hasCosts
+            created_by
         }
     }
 `;

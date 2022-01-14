@@ -17,6 +17,7 @@ const GET_ACTIVITIES = gql`
             postalCode
             city
             hasCosts
+            created_by
         }
     }
 `;
