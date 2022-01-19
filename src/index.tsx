@@ -11,6 +11,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { REALM_APP_ID, REALM_ENDPOINT } from "./__helpers__/common";
 import * as Realm from "realm-web";
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 
 const app = Realm.getApp(REALM_APP_ID);
 // Gets a valid Realm user access token to authenticate requests
@@ -48,6 +49,7 @@ ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
+                <ScrollToTop />
                 <App />
             </BrowserRouter>
         </ApolloProvider>

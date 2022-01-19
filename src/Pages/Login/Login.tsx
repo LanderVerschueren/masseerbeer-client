@@ -1,8 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import RealmContext from "../../__helpers__/realmContext";
 import * as Realm from "realm-web";
+import styled from "styled-components";
+
+const Input = styled.input`
+    text-transform: lowercase;
+`
 
 const Login = () => {
     const {
@@ -12,17 +17,17 @@ const Login = () => {
     } = useForm();
 
     const realmApp = useContext(RealmContext);
-
     const navigate = useNavigate();
 
-    const onSubmit = async (data: any) => {
-        const resp = await realmApp.logIn(
-            Realm.Credentials.emailPassword(data.email, data.password)
-        );
+    const [loading, setLoading] = useState(false);
 
-        if (resp) {
+    const onSubmit = async (data: any) => {
+        setLoading(true);
+        realmApp.logIn(
+            Realm.Credentials.emailPassword(data.email, data.password)
+        ).then((resp:any) => {
             navigate("/");
-        }
+        }).catch((e: any) => setLoading(false));
     };
 
     return (
@@ -36,7 +41,7 @@ const Login = () => {
                             <div className="form-section">
                                 <label htmlFor="">E-mail</label>
                                 <div className="input-control">
-                                    <input
+                                    <Input
                                         type="text"
                                         placeholder="E-mail"
                                         className={
@@ -80,7 +85,7 @@ const Login = () => {
                             </div>
                             <div className="form-section u-text-right">
                                 <div className="mt-1 u-inline-block">
-                                    <button className="btn-info" type="submit">
+                                    <button className={loading ? "btn-info animated loading hide-text" : "btn-info"} type="submit">
                                         inloggen
                                     </button>
                                 </div>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { commonHeights, LOCALSTORAGE_JWT } from "../__helpers__/common";
 import RealmContext from "../__helpers__/realmContext";
@@ -11,13 +11,31 @@ const ChildrenContainer = styled.div`
     margin-top: ${commonHeights.navHeight}px;
 `;
 
+const Username = styled.p`
+    padding: 0 0.3rem;
+    transition: 0.3s;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    @media screen and (max-width: 767px) {
+        padding: 1rem;
+    }
+`
+
 const CommonHeader = () => {
     const realmApp = useContext(RealmContext);
+    const customUserData: any = realmApp?.currentUser?.customData;
+    const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const logout = () => {
         realmApp.currentUser?.logOut().then(() => {
             localStorage.removeItem(LOCALSTORAGE_JWT);
+            navigate('/');
         });
     };
 
@@ -60,15 +78,24 @@ const CommonHeader = () => {
                     </div>
 
                     <div className="nav-right">
-                        <div className="nav-item text-center">
+                        <div className="text-center u-flex u-items-center">
+                            {customUserData && customUserData.data && <Username className="m-0 mr-5">{customUserData.data.firstName}</Username>}
+                        </div>
+                        <div className="nav-item text-center" onClick={() => logout()}>
                             {realmApp.currentUser?.providerType ===
-                            "local-userpass" ? (
-                                <button
-                                    className="btn-transparent"
-                                    onClick={() => logout()}
-                                >
+                                "local-userpass" ? (
+                                // {/* <button
+                                //     className="btn-transparent"
+                                //     onClick={() => logout()}
+                                // > */}
+                                <>
+                                    <span className="icon mr-1">
+                                        <i className="fa-wrapper fa fa-sign-out-alt"></i>
+                                    </span>
                                     uitloggen
-                                </button>
+                                </>
+                                // </button>
+
                             ) : (
                                 <Link onClick={() => closeMenu()} to="/login">
                                     inloggen
