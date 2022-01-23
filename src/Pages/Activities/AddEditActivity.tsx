@@ -157,11 +157,11 @@ const AddEditActivity = () => {
         onCompleted: (resp: any) =>
             reset({
                 ...resp.activity,
-                startDate: resp.startDate ? format(
+                startDate: resp.activity.startDate ? format(
                     new Date(resp.activity.startDate * 1000),
                     "yyyy-MM-dd'T'HH:mm"
                 ) : null,
-                endDate: resp.endDate ? format(
+                endDate: resp.activity.endDate ? format(
                     new Date(resp.activity.endDate * 1000),
                     "yyyy-MM-dd'T'HH:mm"
                 ) : null,
@@ -182,6 +182,7 @@ const AddEditActivity = () => {
     }, []);
 
     const onSubmit = (data: FormData) => {
+        console.log(data.startDate);
         if (activityId) {
             updateActivity({
                 variables: {
@@ -224,7 +225,7 @@ const AddEditActivity = () => {
         }
     };
 
-    console.log(activity)
+    console.log(getValues());
     return (
         <>
             <Helmet>
@@ -377,7 +378,7 @@ const AddEditActivity = () => {
                                 </div>
                             </div> */}
                                     <div className="row">
-                                        <div className="col-3">
+                                        <div className="col-3 col-md-4">
                                             <div className="form-ext-control form-ext-checkbox">
                                                 <input
                                                     id="stateCheckbox"
@@ -417,12 +418,12 @@ const AddEditActivity = () => {
                                         </div>
                                     )}
                                     <div className="row u-flex u-justify-flex-end">
-                                        <div className="col-2 u-flex u-justify-flex-end">
+                                        <div className="col-2 col-md-4 u-flex u-justify-flex-end">
                                             <button
                                                 type="submit"
                                                 className={loadingAdd || loadingEdit ? "btn-primary animated loading hide-text" : "btn-primary"}
                                             >
-                                                {activityId ? "bewerken" : "toevoegen"}
+                                                {activityId ? "bijwerken" : "toevoegen"}
                                             </button>
                                         </div>
                                     </div>

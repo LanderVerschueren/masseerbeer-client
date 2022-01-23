@@ -20,12 +20,12 @@ const Login = () => {
 
     const onSubmit = async (data: any) => {
         await realmApp.emailPasswordAuth.registerUser(
-            data.email,
+            data.email.toLowerCase(),
             data.password
         );
 
         const resp = await realmApp.logIn(
-            Realm.Credentials.emailPassword(data.email, data.password)
+            Realm.Credentials.emailPassword(data.email.toLowerCase(), data.password)
         );
 
         if (resp) {

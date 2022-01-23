@@ -11,6 +11,7 @@ function App() {
 const AppInner = () => {
     const realmApp = useContext(RealmContext);
     const routing = useRoutes(routes(realmApp.currentUser ? true : false));
+    console.log(realmApp);
 
     return routing;
 };

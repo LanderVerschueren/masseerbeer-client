@@ -10,6 +10,7 @@ import ActivityCosts from "../Pages/ActivityCosts/ActivityCosts";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Registration from "../Pages/Registration/Registration";
+import UserConfirm from "../Pages/UserConfirm/UserConfirm";
 
 const routes = (isLoggedIn: boolean): Array<RouteObject> => [
     {
@@ -28,6 +29,10 @@ const routes = (isLoggedIn: boolean): Array<RouteObject> => [
                 path: "registreren",
                 element: <Registration />,
             },
+            {
+                path: "bevestigen",
+                element: <UserConfirm />
+            }
         ],
     },
     {

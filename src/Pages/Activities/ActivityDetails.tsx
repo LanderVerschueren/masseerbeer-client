@@ -3,9 +3,21 @@ import format from "date-fns/format";
 import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
 import Loading from "../../Components/Loading/Loading";
 import Modal from "../../Components/Modal/Modal";
 import RealmContext from "../../__helpers__/realmContext";
+
+const Iframe = styled.iframe`
+    width: 100%;
+`
+
+const ActivityName = styled.h2`
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+flex: 1;
+`
 
 const GET_ACTIVITY = gql`
     query activity($query: ActivityQueryInput) {
@@ -97,110 +109,109 @@ const ActivityDetails = () => {
                         <>
                             <div className="section">
                                 <div className="content">
-                                    <>
-                                        <div className="row">
-                                            <div className="col">
-                                                <h2>
-                                                    {activity.activity.activityName}
-                                                </h2>
+                                    <div className="row">
+                                        <div className="col" style={{maxWidth: '100%'}}>
+                                            <ActivityName>
+                                                {activity.activity.activityName}
+                                            </ActivityName>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">
+                                            {realmApp.currentUser?.providerType ===
+                                                "local-userpass" &&
+                                                activity && (
+                                                    <>
+                                                        {activity &&
+                                                            activity.activity.hasCosts && (
+                                                                <Link
+                                                                    to={`kosten`}
+                                                                    className="btn btn-small btn-transparent pad-right"
+                                                                >
+                                                                    kosten
+                                                                    <i className="fa-wrapper fa fa-money-check-alt pad-left" />
+                                                                </Link>
+                                                            )}
+                                                        <Link
+                                                            to={`bewerken`}
+                                                            className="btn mr-2"
+                                                            style={{
+                                                                height: "100%",
+                                                            }}
+                                                        >
+                                                            bewerken
+                                                            <i className="fa-wrapper fa fa-edit pad-left" />
+                                                        </Link>
+                                                    </>
+                                                )}
+                                        </div>
+                                    </div>
+                                    <div className="row u-flex u-flex-row">
+                                        <div className="col-6">
+                                            <h5>
+                                                <i className="fa-wrapper fa fa-calendar-alt pr-2" />
+                                                Wanneer
+                                            </h5>
+                                            <div className="row">
+                                                <div className="col u-flex u-flex-column">
+                                                    <label className="font-bold">
+                                                        start
+                                                    </label>
+                                                    <p>
+                                                        {activity.activity.startDate ? format(
+                                                            new Date(
+                                                                activity.activity
+                                                                    .startDate *
+                                                                1000
+                                                            ),
+                                                            "dd/MM/yyyy HH:mm"
+                                                        ) : "TBD"}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col u-flex u-flex-column">
+                                                    <label className="font-bold">
+                                                        einde
+                                                    </label>
+                                                    <p>
+                                                        {activity.activity.endDate ? format(
+                                                            new Date(
+                                                                activity.activity
+                                                                    .endDate * 1000
+                                                            ),
+                                                            "dd/MM/yyyy HH:mm"
+                                                        ) : "TBD"}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-6">
-                                                {realmApp.currentUser?.providerType ===
-                                                    "local-userpass" &&
-                                                    activity && (
-                                                        <>
-                                                            {activity &&
-                                                                activity.activity.hasCosts && (
-                                                                    <Link
-                                                                        to={`kosten`}
-                                                                        className="btn btn-small btn-transparent pad-right"
-                                                                    >
-                                                                        kosten
-                                                                        <i className="fa-wrapper fa fa-money-check-alt pad-left" />
-                                                                    </Link>
-                                                                )}
-                                                            <Link
-                                                                to={`bewerken`}
-                                                                className="btn mr-2"
-                                                                style={{
-                                                                    height: "100%",
-                                                                }}
-                                                            >
-                                                                bewerken
-                                                                <i className="fa-wrapper fa fa-edit pad-left" />
-                                                            </Link>
-                                                        </>
-                                                    )}
-                                            </div>
-                                        </div>
-                                        <div className="row u-flex u-flex-row">
-                                            <div className="col-6">
-                                                <h5>
-                                                    <i className="fa-wrapper fa fa-calendar-alt pr-2" />
-                                                    Wanneer
-                                                </h5>
-                                                <div className="row">
-                                                    <div className="col u-flex u-flex-column">
-                                                        <label className="font-bold">
-                                                            start
-                                                        </label>
-                                                        <p>
-                                                            {activity.activity.startDate ? format(
-                                                                new Date(
-                                                                    activity.activity
-                                                                        .startDate *
-                                                                    1000
-                                                                ),
-                                                                "dd/MM/yyyy HH:mm"
-                                                            ) : "TBD"}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col u-flex u-flex-column">
-                                                        <label className="font-bold">
-                                                            einde
-                                                        </label>
-                                                        <p>
-                                                            {activity.activity.endDate ? format(
-                                                                new Date(
-                                                                    activity.activity
-                                                                        .endDate * 1000
-                                                                ),
-                                                                "dd/MM/yyyy HH:mm"
-                                                            ) : "TBD"}
-                                                        </p>
-                                                    </div>
+                                        <div className="col-6">
+                                            <h5>
+                                                <i className="fa-wrapper fa fa-map-marker-alt pr-2" />
+                                                Waar
+                                            </h5>
+                                            <div className="row">
+                                                <div className="col u-flex u-flex-column">
+                                                    <label className="font-bold">
+                                                        adres
+                                                    </label>
+                                                    <p>
+                                                        {activity.activity.street}{" "}
+                                                        {
+                                                            activity.activity
+                                                                .houseNumber
+                                                        }
+                                                        <br />
+                                                        {
+                                                            activity.activity
+                                                                .postalCode
+                                                        }{" "}
+                                                        {activity.activity.city}
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div className="col-6">
-                                                <h5>
-                                                    <i className="fa-wrapper fa fa-map-marker-alt pr-2" />
-                                                    Waar
-                                                </h5>
-                                                <div className="row">
-                                                    <div className="col u-flex u-flex-column">
-                                                        <label className="font-bold">
-                                                            adres
-                                                        </label>
-                                                        <p>
-                                                            {activity.activity.street}{" "}
-                                                            {
-                                                                activity.activity
-                                                                    .houseNumber
-                                                            }
-                                                            <br />
-                                                            {
-                                                                activity.activity
-                                                                    .postalCode
-                                                            }{" "}
-                                                            {activity.activity.city}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                {/* <div className="row">
+                                            {/* <div className="row">
                                         <div
                                             style={{ height: 200, width: 200 }}
                                         >
@@ -219,35 +230,34 @@ const ActivityDetails = () => {
                                             </GoogleMapReact>
                                         </div>
                                     </div> */}
-                                            </div>
                                         </div>
-                                        {activity.activity.doodleUrl && <div className="row u-flex u-flex-column">
-                                            <div className="col-12">
-                                                <h5>
-                                                    <i className="fa-wrapper fa fa-book-open pr-2" />
-                                                    Doodle
-                                                </h5>
-                                                <iframe height={500} src={activity.activity.doodleUrl} />
-                                            </div></div>}
-                                        {realmApp.currentUser?.providerType ===
-                                            "local-userpass" && (
-                                                <div className="row">
-                                                    <div className="col u-flex u-justify-flex-end">
-                                                        <button
-                                                            onClick={() =>
-                                                                setOpenDialog(
-                                                                    activity.activity._id
-                                                                )
-                                                            }
-                                                            className="btn btn-danger mb-0"
-                                                        >
-                                                            verwijderen
-                                                            <i className="fa-wrapper fa fa-trash pad-left" />
-                                                        </button>
-                                                    </div>
+                                    </div>
+                                    {activity.activity.doodleUrl && <div className="row u-flex u-flex-column">
+                                        <div className="col-12">
+                                            <h5>
+                                                <i className="fa-wrapper fa fa-book-open pr-2" />
+                                                Doodle
+                                            </h5>
+                                            <Iframe height={500} src={activity.activity.doodleUrl} />
+                                        </div></div>}
+                                    {realmApp.currentUser?.providerType ===
+                                        "local-userpass" && (
+                                            <div className="row">
+                                                <div className="col u-flex u-justify-flex-end">
+                                                    <button
+                                                        onClick={() =>
+                                                            setOpenDialog(
+                                                                activity.activity._id
+                                                            )
+                                                        }
+                                                        className="btn btn-danger mb-0"
+                                                    >
+                                                        verwijderen
+                                                        <i className="fa-wrapper fa fa-trash pad-left" />
+                                                    </button>
                                                 </div>
-                                            )}
-                                    </>
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                             {realmApp.currentUser?.providerType ===
